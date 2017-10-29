@@ -46,7 +46,7 @@ namespace gr {
        * class. pam::pam_slicer_fb::make is the public interface for
        * creating new instances.
        */
-      static sptr make();
+      static sptr make(const std::vector<float> &slice_levels, const std::vector<int> &dibits);
     };
 
   } // namespace pam

@@ -29,16 +29,17 @@ namespace gr {
     class pam_slicer_fb_impl : public pam_slicer_fb
     {
      private:
-      // Nothing to declare in this block.
+      const std::vector<float> d_slice_levels;
+      const std::vector<int> d_dibits;
 
      public:
-      pam_slicer_fb_impl();
+      pam_slicer_fb_impl(const std::vector<float> &slice_levels, const std::vector<int> &dibits);
       ~pam_slicer_fb_impl();
 
       // Where all the action really happens
       int work(int noutput_items,
-         gr_vector_const_void_star &input_items,
-         gr_vector_void_star &output_items);
+	       gr_vector_const_void_star &input_items,
+	       gr_vector_void_star &output_items);
     };
 
   } // namespace pam

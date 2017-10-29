@@ -29,20 +29,23 @@ namespace gr {
   namespace pam {
 
     pam_slicer_fb::sptr
-    pam_slicer_fb::make()
+    pam_slicer_fb::make(const std::vector<float> &slice_levels, const std::vector<int> &dibits)
     {
       return gnuradio::get_initial_sptr
-        (new pam_slicer_fb_impl());
+        (new pam_slicer_fb_impl(slice_levels, dibits));
     }
 
     /*
      * The private constructor
      */
-    pam_slicer_fb_impl::pam_slicer_fb_impl()
+    pam_slicer_fb_impl::pam_slicer_fb_impl(const std::vector<float> &slice_levels, const std::vector<int> &dibits)
       : gr::sync_block("pam_slicer_fb",
-              gr::io_signature::make(<+MIN_IN+>, <+MAX_IN+>, sizeof(<+ITYPE+>)),
-              gr::io_signature::make(<+MIN_OUT+>, <+MAX_OUT+>, sizeof(<+OTYPE+>)))
-    {}
+              gr::io_signature::make(1, 1, sizeof(float)),
+              gr::io_signature::make(1, 1, sizeof(unsigned char)))
+      , d_slice_levels(slice_levels)
+      , d_dibits(dibits)
+    {
+    }
 
     /*
      * Our virtual destructor.
@@ -53,13 +56,26 @@ namespace gr {
 
     int
     pam_slicer_fb_impl::work(int noutput_items,
-        gr_vector_const_void_star &input_items,
-        gr_vector_void_star &output_items)
+			      gr_vector_const_void_star &input_items,
+			      gr_vector_void_star &output_items)
     {
-      const <+ITYPE+> *in = (const <+ITYPE+> *) input_items[0];
-      <+OTYPE+> *out = (<+OTYPE+> *) output_items[0];
+      const float *in = (const float *) input_items[0];
+      unsigned char *out = (unsigned char *) output_items[0];
 
-      // Do <+signal processing+>
+      for(int i = 0; i < noutput_items; i++) {
+	      bool found = false;
+	      float sym = in[i];
+        for (std::vector<float>::const_iterator i_slice = d_slice_levels.begin(); i_slice != d_slice_levels.end(); i_slice++){
+  	      if(sym < *i_slice) {
+  	        out[i] = d_dibits[std::distance(d_slice_levels.begin(), i_slice)];
+            found = true;
+            break;
+          }
+        }
+        if (found == false){
+          out[i] = d_dibits[d_dibits.size() - 1];
+        }
+	    }
 
       // Tell runtime system how many output items we produced.
       return noutput_items;
