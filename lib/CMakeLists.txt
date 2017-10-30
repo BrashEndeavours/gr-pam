@@ -27,6 +27,7 @@ link_directories(${Boost_LIBRARY_DIRS})
 
 list(APPEND pam_sources
     pam_slicer_fb_impl.cc
+    fourpam_demod_ff_impl.cc
 )
 
 set(pam_sources "${pam_sources}" PARENT_SCOPE)

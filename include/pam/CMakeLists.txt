@@ -22,5 +22,6 @@
 ########################################################################
 install(FILES
     api.h
-    pam_slicer_fb.h DESTINATION include/pam
+    pam_slicer_fb.h
+    fourpam_demod_ff.h DESTINATION include/pam
 )

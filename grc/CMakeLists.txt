@@ -18,5 +18,6 @@
 # Boston, MA 02110-1301, USA.
 
 install(FILES
-    pam_pam_slicer_fb.xml DESTINATION share/gnuradio/grc/blocks
+    pam_pam_slicer_fb.xml
+    pam_fourpam_demod_ff.xml DESTINATION share/gnuradio/grc/blocks
 )

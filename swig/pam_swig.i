@@ -9,8 +9,11 @@
 
 %{
 #include "pam/pam_slicer_fb.h"
+#include "pam/fourpam_demod_ff.h"
 %}
 
 
 %include "pam/pam_slicer_fb.h"
 GR_SWIG_BLOCK_MAGIC2(pam, pam_slicer_fb);
+%include "pam/fourpam_demod_ff.h"
+GR_SWIG_BLOCK_MAGIC2(pam, fourpam_demod_ff);
