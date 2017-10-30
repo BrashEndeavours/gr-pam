@@ -225,9 +225,9 @@ namespace gr {
       send_frequency_correction();
 
       consume_each (noutput_items);
-
+      produce(0, n);
       // Tell runtime system how many output items we produced.
-      return n;
+      return -2;
     }
 
     void
